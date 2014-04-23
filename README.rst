@@ -23,7 +23,7 @@ Put this setting to enable the Akismet spam checker backend:
 
 Then define your API key in the settings:
 
-  ``AKISMET_SECRET_API_KEY = 'Your key'``
+  ``AKISMET_API_KEY = 'Your key'``
 
 Get your free API key at http://akismet.com/signup/ if you don't have one.
 
@@ -36,7 +36,7 @@ Put this setting to enable the Typepad spam checker backend:
 
 Then define your API key in the settings:
 
-  ``TYPEPAD_SECRET_API_KEY = 'Your key'``
+  ``TYPEPAD_API_KEY = 'Your key'``
 
 Why Typepad is included in this package ?
 
