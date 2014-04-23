@@ -9,9 +9,9 @@ setup(
     version=zinnia_akismet.__version__,
 
     description=('Anti-spam protections for django-blog-zinnia '
-                 'with Akismet or Mollom'),
+                 'with Akismet or Typepad'),
     long_description=open('README.rst').read(),
-    keywords='django, zinnia, spam, akismet, mollom',
+    keywords='django, zinnia, spam, akismet, typepad',
 
     author=zinnia_akismet.__author__,
     author_email=zinnia_akismet.__email__,
