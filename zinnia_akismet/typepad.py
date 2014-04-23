@@ -12,10 +12,10 @@ try:
 except ImportError:
     raise ImproperlyConfigured('akismet module is not available')
 
-if not getattr(settings, 'TYPEPAD_SECRET_API_KEY', ''):
-    raise ImproperlyConfigured('You have to set TYPEPAD_SECRET_API_KEY')
+if not getattr(settings, 'TYPEPAD_API_KEY', ''):
+    raise ImproperlyConfigured('You have to set TYPEPAD_API_KEY')
 
-TYPEPAD_API_KEY = settings.TYPEPAD_SECRET_API_KEY
+TYPEPAD_API_KEY = settings.TYPEPAD_API_KEY
 
 
 class TypePad(Akismet):
