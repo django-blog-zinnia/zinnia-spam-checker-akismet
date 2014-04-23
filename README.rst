@@ -19,7 +19,7 @@ Using Akismet
 
 Put this setting to enable the Akismet spam checker backend:
 
-  ``ZINNIA_SPAM_CHECKER_BACKENDS = ('zinnia_akismet.automattic',)``
+  ``ZINNIA_SPAM_CHECKER_BACKENDS = ('zinnia_akismet.akismet',)``
 
 Then define your API key in the settings:
 
