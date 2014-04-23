@@ -2,18 +2,20 @@
 from setuptools import setup
 from setuptools import find_packages
 
+import zinnia_akismet
+
 setup(
     name='zinnia-spam-checker-akismet',
-    version='1.0',
+    version=zinnia_akismet.__version__,
 
     description=('Anti-spam protections for django-blog-zinnia '
                  'with Akismet or Mollom'),
     long_description=open('README.rst').read(),
     keywords='django, zinnia, spam, akismet, mollom',
 
-    author='Fantomas42',
-    author_email='fantomas42@gmail.com',
-    url='https://github.com/Fantomas42/zinnia-spam-checker-akismet',
+    author=zinnia_akismet.__author__,
+    author_email=zinnia_akismet.__email__,
+    url=zinnia_akismet.__url__,
 
     packages=find_packages(),
     classifiers=[
@@ -26,8 +28,8 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Topic :: Software Development :: Libraries :: Python Modules'],
 
-    license='BSD License',
+    license=zinnia_akismet.__license__,
     include_package_data=True,
     zip_safe=False,
-    install_requires=['akismet']
+    install_requires=['akismet>=0.2.0']
 )
