@@ -44,6 +44,13 @@ For conveniency because the Typepad AntiSpam use the same API as
 Akismet, they share the same dependancy to the `python-akismet`_
 module.
 
+Note that you can combine the two spam checkers like this: ::
+
+  ZINNIA_SPAM_CHECKER_BACKENDS = (
+      'zinnia_akismet.akismet',
+      'zinnia_akismet.typepad')
+
+
 .. _django-blog-zinnia: http://django-blog-zinnia.com
 .. _Akismet: http://akismet.com/
 .. _Typepad AntiSpam: http://antispam.typepad.com/
