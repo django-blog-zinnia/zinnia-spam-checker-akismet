@@ -19,11 +19,11 @@ Using Akismet
 
 Put this setting to enable the Akismet spam checker backend:
 
-  ``ZINNIA_SPAM_CHECKER_BACKENDS = ('zinnia_akismet.automattic',)``
+  ``ZINNIA_SPAM_CHECKER_BACKENDS = ('zinnia_akismet.akismet',)``
 
 Then define your API key in the settings:
 
-  ``AKISMET_SECRET_API_KEY = 'Your key'``
+  ``AKISMET_API_KEY = 'Your key'``
 
 Get your free API key at http://akismet.com/signup/ if you don't have one.
 
@@ -36,13 +36,20 @@ Put this setting to enable the Typepad spam checker backend:
 
 Then define your API key in the settings:
 
-  ``TYPEPAD_SECRET_API_KEY = 'Your key'``
+  ``TYPEPAD_API_KEY = 'Your key'``
 
 Why Typepad is included in this package ?
 
 For conveniency because the Typepad AntiSpam use the same API as
 Akismet, they share the same dependancy to the `python-akismet`_
 module.
+
+Note that you can combine the two spam checkers like this: ::
+
+  ZINNIA_SPAM_CHECKER_BACKENDS = (
+      'zinnia_akismet.akismet',
+      'zinnia_akismet.typepad')
+
 
 .. _django-blog-zinnia: http://django-blog-zinnia.com
 .. _Akismet: http://akismet.com/
