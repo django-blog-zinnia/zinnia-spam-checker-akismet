@@ -91,4 +91,4 @@ AKISMET_API_KEY = 'Your key'
 TYPEPAD_API_KEY = 'Your key'
 
 ZINNIA_SPAM_CHECKER_BACKENDS = ('zinnia_akismet.akismet',
-                                'zinnia_akiasmet.typepad')
+                                'zinnia_akismet.typepad',)
