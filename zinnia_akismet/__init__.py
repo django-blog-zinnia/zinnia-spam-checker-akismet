@@ -1,5 +1,5 @@
 """Spam checker backends for Zinnia based on Akismet"""
-__version__ = '1.0.1'
+__version__ = '1.1'
 __license__ = 'BSD License'
 
 __author__ = 'Fantomas42'
