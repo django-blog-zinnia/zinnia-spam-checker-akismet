@@ -6,11 +6,8 @@ from django.core.exceptions import ImproperlyConfigured
 
 from zinnia.settings import PROTOCOL
 
-try:
-    from akismet import Akismet
-    from akismet import APIKeyError
-except ImportError:
-    raise ImproperlyConfigured('akismet module is not available')
+from zinnia_akismet.api import Akismet
+from zinnia_akismet.api import APIKeyError
 
 if not getattr(settings, 'TYPEPAD_API_KEY', ''):
     raise ImproperlyConfigured('You have to set TYPEPAD_API_KEY')
