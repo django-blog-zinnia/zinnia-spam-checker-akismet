@@ -30,6 +30,5 @@ setup(
 
     license=zinnia_akismet.__license__,
     include_package_data=True,
-    zip_safe=False,
-    install_requires=['akismet>=0.2.0']
+    zip_safe=False
 )
