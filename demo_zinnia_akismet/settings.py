@@ -1,6 +1,7 @@
 """Settings for the zinnia-spam-checker-akismet demo"""
 import os
 
+
 gettext = lambda s: s
 
 DEBUG = True
