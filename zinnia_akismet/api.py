@@ -11,14 +11,12 @@
 
 # Released subject to the BSD License
 # See http://www.voidspace.org.uk/python/license.shtml
-
-
 """
 A python interface to the `Akismet <http://akismet.com>`_ API.
-This is a web service for blocking SPAM comments to blogs - or other online 
+This is a web service for blocking SPAM comments to blogs - or other online
 services.
 
-You will need a Wordpress API key, from `wordpress.com <http://wordpress.com>`_.
+You will need a Wordpress API key, from `Wordpress <http://wordpress.com>`_.
 
 You should pass in the keyword argument 'agent' to the name of your program,
 when you create an Akismet instance. This sets the ``user-agent`` to a useful
@@ -38,7 +36,7 @@ Usage example::
     api = Akismet(agent='Test Script')
     # if apikey.txt is in place,
     # the key will automatically be set
-    # or you can call api.setAPIKey()
+    # or you can call api.set_api_key()
     #
     if api.key is None:
         print("No 'apikey.txt' file.")
@@ -55,9 +53,9 @@ Usage example::
 """
 
 import os
+import socket
 from urllib import urlencode
 
-import socket
 if hasattr(socket, 'setdefaulttimeout'):
     # Set the default timeout on sockets to 5 seconds
     socket.setdefaulttimeout(5)
@@ -88,7 +86,8 @@ except ImportError:
 
 if urllib2 is None:
     def _fetch_url(url, data, headers):
-        req = urlfetch.fetch(url=url, payload=data, method=urlfetch.POST, headers=headers)
+        req = urlfetch.fetch(url=url, payload=data,
+                             method=urlfetch.POST, headers=headers)
         if req.status_code == 200:
             return req.content
         raise Exception('Could not fetch Akismet URL: %s Response code: %s' %
@@ -115,13 +114,13 @@ class Akismet(object):
     baseurl = 'rest.akismet.com/1.1/'
 
     def __init__(self, key=None, blog_url=None, agent=None):
-        """Automatically calls ``setAPIKey``."""
+        """Automatically calls ``set_api_key``."""
         if agent is None:
             agent = DEFAULTAGENT % __version__
         self.user_agent = user_agent % (agent, __version__)
-        self.setAPIKey(key, blog_url)
+        self.set_api_key(key, blog_url)
 
-    def _getURL(self):
+    def _get_url(self):
         """
         Fetch the url to make requests to.
 
@@ -129,14 +128,14 @@ class Akismet(object):
         """
         return 'http://%s.%s' % (self.key, self.baseurl)
 
-    def _safeRequest(self, url, data, headers):
+    def _safe_request(self, url, data, headers):
         try:
             resp = _fetch_url(url, data, headers)
         except Exception as e:
             raise AkismetError(str(e))
         return resp
 
-    def setAPIKey(self, key=None, blog_url=None):
+    def set_api_key(self, key=None, blog_url=None):
         """
         Set the wordpress API key for all transactions.
 
@@ -172,7 +171,8 @@ class Akismet(object):
 
         If the connection to akismet fails, it allows the normal ``HTTPError``
         or ``URLError`` to be raised.
-        (*akismet.py* uses `urllib2 <http://docs.python.org/lib/module-urllib2.html>`_)
+        (*akismet.py* uses
+        `urllib2 <http://docs.python.org/lib/module-urllib2.html>`_)
         """
         if self.key is None:
             raise APIKeyError("Your have not set an API key.")
@@ -182,7 +182,7 @@ class Akismet(object):
         # we *don't* trap the error here
         # so if akismet is down it will raise an HTTPError or URLError
         headers = {'User-Agent': self.user_agent}
-        resp = self._safeRequest(url, urlencode(data), headers)
+        resp = self._safe_request(url, urlencode(data), headers)
         if resp.lower() == 'valid':
             return True
         else:
@@ -212,7 +212,7 @@ class Akismet(object):
             except KeyError:
                 raise AkismetError("No 'user_agent' supplied")
             data['user_agent'] = val
-        #
+
         data.setdefault('referrer', os.environ.get('HTTP_REFERER', 'unknown'))
         data.setdefault('permalink', '')
         data.setdefault('comment_type', 'comment')
@@ -230,13 +230,13 @@ class Akismet(object):
         data.setdefault('HTTP_ACCEPT', os.environ.get('HTTP_ACCEPT', ''))
         data.setdefault('blog', self.blog_url)
 
-    def comment_check(self, comment, data=None, build_data=True, DEBUG=False):
+    def comment_check(self, comment, data=None, build_data=True, debug=False):
         """
         This is the function that checks comments.
 
         It returns ``True`` for spam and ``False`` for ham.
 
-        If you set ``DEBUG=True`` then it will return the text of the response,
+        If you set ``debug=True`` then it will return the text of the response,
         instead of the ``True`` or ``False`` object.
 
         It raises ``APIKeyError`` if you have not yet set an API key.
@@ -297,9 +297,9 @@ class Akismet(object):
             supplied by the browser or server. In fact the HTTP protocol
             forbids relying on referrer information for functionality in
             programs.
-        .. [#] The `API docs <http://akismet.com/development/api/>`_ state that this value
-            can be " *blank, comment, trackback, pingback, or a made up value*
-            *like 'registration'* ".
+        .. [#] The `API docs <http://akismet.com/development/api/>`_ state that
+            this value can be " *blank, comment, trackback, pingback, or a
+            made up value* *like 'registration'* ".
         """
         if self.key is None:
             raise APIKeyError("Your have not set an API key.")
@@ -309,12 +309,12 @@ class Akismet(object):
             self._build_data(comment, data)
         if 'blog' not in data:
             data['blog'] = self.blog_url
-        url = '%scomment-check' % self._getURL()
+        url = '%scomment-check' % self._get_url()
         # we *don't* trap the error here
         # so if akismet is down it will raise an HTTPError or URLError
         headers = {'User-Agent': self.user_agent}
-        resp = self._safeRequest(url, urlencode(data), headers)
-        if DEBUG:
+        resp = self._safe_request(url, urlencode(data), headers)
+        if debug:
             return resp
         resp = resp.lower()
         if resp == 'true':
@@ -331,7 +331,7 @@ class Akismet(object):
         is really spam.
 
         It takes all the same arguments as ``comment_check``, except for
-        *DEBUG*.
+        *debug*.
         """
         if self.key is None:
             raise APIKeyError("Your have not set an API key.")
@@ -339,11 +339,11 @@ class Akismet(object):
             data = {}
         if build_data:
             self._build_data(comment, data)
-        url = '%ssubmit-spam' % self._getURL()
+        url = '%ssubmit-spam' % self._get_url()
         # we *don't* trap the error here
         # so if akismet is down it will raise an HTTPError or URLError
         headers = {'User-Agent': self.user_agent}
-        self._safeRequest(url, urlencode(data), headers)
+        self._safe_request(url, urlencode(data), headers)
 
     def submit_ham(self, comment, data=None, build_data=True):
         """
@@ -359,8 +359,8 @@ class Akismet(object):
             data = {}
         if build_data:
             self._build_data(comment, data)
-        url = '%ssubmit-ham' % self._getURL()
+        url = '%ssubmit-ham' % self._get_url()
         # we *don't* trap the error here
         # so if akismet is down it will raise an HTTPError or URLError
         headers = {'User-Agent': self.user_agent}
-        self._safeRequest(url, urlencode(data), headers)
+        self._safe_request(url, urlencode(data), headers)

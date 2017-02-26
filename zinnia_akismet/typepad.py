@@ -1,13 +1,13 @@
 """TypePad spam checker backend for Zinnia"""
 from django.conf import settings
-from django.utils.encoding import smart_str
 from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
+from django.utils.encoding import smart_str
 
 from zinnia.settings import PROTOCOL
 
-from zinnia_akismet.api import Akismet
 from zinnia_akismet.api import APIKeyError
+from zinnia_akismet.api import Akismet
 
 if not getattr(settings, 'TYPEPAD_API_KEY', ''):
     raise ImproperlyConfigured('You have to set TYPEPAD_API_KEY')
